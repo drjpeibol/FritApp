@@ -45,6 +45,7 @@ struct TrainingStats {
     let sessionsThisMonth: Int
     let averageSessionLength: TimeInterval
     let trainingData: [Date: Double] // Raw training data
+    let streak: TrainingStreak
     
     // Computed property for graph data
     func getTrainingData(for range: TimeRange) -> [MonthlyTraining] {
@@ -99,4 +100,14 @@ struct MonthlyTraining: Identifiable {
     let id = UUID()
     let month: Date
     let hours: Double
+}
+
+struct TrainingStreak {
+    let currentStreak: Int
+    let longestStreak: Int
+    let lastWorkoutDate: Date?
+    
+    static var empty: TrainingStreak {
+        TrainingStreak(currentStreak: 0, longestStreak: 0, lastWorkoutDate: nil)
+    }
 } 

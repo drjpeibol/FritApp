@@ -10,6 +10,9 @@ struct ProfileView: View {
                 VStack(spacing: 24) {
                     ProfileHeaderView()
                     
+                    // Add streak view after header
+                    StreakView(streak: viewModel.stats.streak)
+                    
                     // Monthly Statistics Card
                     StatisticsCardView(stats: viewModel.stats)
                     
@@ -289,5 +292,53 @@ struct WorkoutRow: View {
             Text(workout.description)
                 .lineLimit(2)
         }
+    }
+}
+
+struct StreakView: View {
+    let streak: TrainingStreak
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            HStack {
+                Label("Training Streak", systemImage: "flame.fill")
+                    .font(.headline)
+                Spacer()
+            }
+            
+            HStack(spacing: 40) {
+                VStack(spacing: 8) {
+                    Text("\(streak.currentStreak)")
+                        .font(.system(size: 34, weight: .bold, design: .rounded))
+                        .foregroundColor(.orange)
+                    Text("Current")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                
+                VStack(spacing: 8) {
+                    Text("\(streak.longestStreak)")
+                        .font(.system(size: 34, weight: .bold, design: .rounded))
+                        .foregroundColor(.orange)
+                    Text("Best")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                
+                if let lastWorkout = streak.lastWorkoutDate {
+                    VStack(spacing: 8) {
+                        Text(lastWorkout, style: .date)
+                            .font(.system(size: 16, weight: .semibold))
+                        Text("Last Workout")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
+        }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(16)
+        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
     }
 } 
